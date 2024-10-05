@@ -12,6 +12,18 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+    Tables: a.model({
+      id : a.string(),
+      size : a.integer(),
+      istaken: a.boolean(),
+    }).authorization((allow) => [allow.publicApiKey()]),
+    userReservation: a.model({
+      id: a.string(),
+      userId: a.string(),
+      tableId: a.string(),
+      startTime: a.string(),
+      endTime: a.string(),
+    }).authorization((allow) => [allow.publicApiKey()]),  
 });
 
 export type Schema = ClientSchema<typeof schema>;

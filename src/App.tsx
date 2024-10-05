@@ -6,10 +6,18 @@ const client = generateClient<Schema>();
 
 function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [tables, setTables] = useState<Array<Schema["Tables"]["type"]>>([]);
+  const [userReservations, setUserReservations] = useState<Array<Schema["userReservation"]["type"]>>([]);
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
+    });
+    client.models.Tables.observeQuery().subscribe({
+      next: (data) => setTables([...data.items]),
+    });
+    client.models.userReservation.observeQuery().subscribe({
+      next: (data) => setUserReservations([...data.items]),
     });
   }, []);
 
@@ -24,6 +32,18 @@ function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>{todo.content}</li>
+        ))}
+      </ul>
+      <h1>Tables</h1>
+      <ul>
+        {tables.map((table) => (
+          <li key={table.id}>{table.size}</li>
+        ))}
+      </ul>
+      <h1>User Reservations</h1>
+      <ul>
+        {userReservations.map((userReservation) => (
+          <li key={userReservation.id}>{userReservation.startTime}</li>
         ))}
       </ul>
       <div>
